@@ -1,0 +1,1 @@
+helm install myprom prometheus-community/prometheus --namespace test -f k8s/prometheus-values.yaml

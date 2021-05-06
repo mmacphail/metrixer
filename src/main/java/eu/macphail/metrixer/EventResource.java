@@ -1,5 +1,6 @@
 package eu.macphail.metrixer;
 
+import io.micrometer.core.annotation.Timed;
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.MeterRegistry;
 import org.slf4j.Logger;
@@ -27,6 +28,7 @@ public class EventResource implements HealthIndicator {
         this.errorKafkaSendCounter = registry.counter("errorKafkaSendCounter");
     }
 
+    @Timed(value = "my_get_events", percentiles = {0.50, 0.95, 0.96, 0.97, 0.98, 0.99})
     @GetMapping("/events")
     public String getEvents() {
         ListenableFuture<SendResult<String, String>> future = template.send("random_topic", null, "my data");
@@ -34,6 +36,7 @@ public class EventResource implements HealthIndicator {
         return "events";
     }
 
+    @Timed("my_get_failure")
     @GetMapping("/failure")
     public String getFailures() {
         this.errorKafkaSendCounter.increment();

@@ -18,15 +18,10 @@ spec:
     spec:
       containers:
         - name: metrixer
-          image: mmacphail/metrixer:1.0.0
+          image: mmacphail/metrixer:1.0.1
           ports:
             - containerPort: 8080
               name: http
-          env:
-            - name: MANAGEMENT_ENDPOINT_HEALTH_SHOW_COMPONENTS
-              value: always
-            - name: MANAGEMENT_ENDPOINT_HEALTH_GROUP_LIVENESS_INCLUDE
-              value: livenessState,eventResource
           livenessProbe:
             httpGet:
               path: /actuator/health/liveness
